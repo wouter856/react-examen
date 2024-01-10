@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './screens/home';
 import Catalogue from './screens/catalogue.js';
-import CarDetails from './screens/carDetails.js';
+import Details from './screens/carDetails.js';
 import Rented from './screens/rented.js';
 
 const Stack = createNativeStackNavigator();
@@ -12,11 +12,11 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer style={styles.Container}>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Catalogue" component={Catalogue} />
-        <Stack.Screen name="CarDetails" component={CarDetails} />
-        <Stack.Screen name="Rented" component={Rented} />
+      <Stack.Navigator initialRouteName="Home" >
+        <Stack.Screen name="WRS - Home" component={Home} />
+        <Stack.Screen name="WRS - Catalogue" component={Catalogue} />
+        <Stack.Screen name="WRS - Details" component={Details} />
+        <Stack.Screen name="WRS - Rented" component={Rented} />
       </Stack.Navigator>
     </NavigationContainer>
   );

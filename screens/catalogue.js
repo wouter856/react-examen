@@ -3,6 +3,7 @@ import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
+import Car from '../components/car';
 
 /*DIT IS DE CODE VOOR MOCHT DE API WERKEN, MAAR DAT IS NOOIT GELUKT
 daarom heb ik zelf een aantal auto's toegevoegd in de car.js file
@@ -118,7 +119,7 @@ const Catalogue = () => {
     const startDateString = startDate.toISOString();
     const endDateString = endDate.toISOString();
 
-    navigation.navigate('CarDetails', { car, startDate: startDateString, endDate: endDateString });
+    navigation.navigate('WRS - Details', { car, startDate: startDateString, endDate: endDateString });
   };
 
   const updateEndDate = (newStartDate) => {
@@ -144,15 +145,15 @@ const Catalogue = () => {
   return (
     <View style={styles.catalogue}>
       <View style={styles.datePickersContainer}>
-        <Text style={styles.title}>Pick your desired renting period below:</Text>
+        <Text style={styles.title}>Pick your desired renting period:</Text>
         <View style={styles.selectedDateContainer}>
-          <Text>From</Text>
+          <Text>From:</Text>
           <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
             <Text style={styles.dateSelector} onPress={() => setShowStartDatePicker(true)}>
               {format(startDate, 'dd/MM/yyyy')}
             </Text>
           </TouchableOpacity>
-          <Text>Till</Text>
+          <Text>Till:</Text>
           <TouchableOpacity onPress={() => setShowEndDatePicker(true)}>
             <Text style={styles.dateSelector} onPress={() => setShowEndDatePicker(true)}>
               {format(endDate, 'dd/MM/yyyy')}
@@ -196,7 +197,12 @@ const Catalogue = () => {
 
       <FlatList
         data={cars}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <Car
+            car={item}
+            onPress={() => handleCarPress(item)}
+          />
+        )}
         keyExtractor={(item) => item.name}
       />
     </View>
@@ -207,24 +213,6 @@ const styles = {
   catalogue: {
     flex: 1,
     padding: 16,
-  },
-  carContainer: {
-    marginBottom: 20,
-  },
-  carImage: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-    borderRadius: 8,
-  },
-  carName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 8,
-  },
-  carSummary: {
-    fontSize: 16,
-    marginTop: 4,
   },
   datePickersContainer: {
     backgroundColor: '#ADD8E6', // Light Blue color
@@ -242,7 +230,7 @@ const styles = {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: '#FFF',
+    color: '#00008F',
   },
   datePickersRow: {
     flexDirection: 'row',
@@ -260,6 +248,10 @@ const styles = {
     marginLeft: 8,
     marginRight: 8,
     color: '#00008F', // Dark Blue color
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#00008F', // Dark Blue color
+    padding: 8,
   },
 };
 

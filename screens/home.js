@@ -7,8 +7,8 @@ const Home = ({ navigation }) => {
         <View style={styles.screen}>
           <Text style={styles.title}>Craft Headlines</Text>
           <Button
-            title="back to catalogue"
-            onPress={() => navigation.navigate('Catalogue')}
+            title="Open the catalogue"
+            onPress={() => navigation.navigate('WRS - Catalogue')}
           />
         </View>
     );

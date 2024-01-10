@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 
-const CarDetails = ({ route }) => {
+const Details = ({ route }) => {
   const navigation = useNavigation();
   // Extract the car data and start and end date from the route parameters
   const { car, startDate, endDate } = route.params;
@@ -25,7 +25,7 @@ const CarDetails = ({ route }) => {
     const formattedStartDate = selectedStartDate.toISOString(); // Convert to string
     const formattedEndDate = selectedEndDate.toISOString(); // Convert to string
 
-    navigation.navigate('Rented', { car, startDate: formattedStartDate, endDate: formattedEndDate });
+    navigation.navigate('WRS - Rented', { car, startDate: formattedStartDate, endDate: formattedEndDate });
   };
 
   const updateEndDate = (newStartDate) => {
@@ -39,15 +39,15 @@ const CarDetails = ({ route }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.datePickersContainer}>
-        <Text style={styles.title}>Pick your desired renting period below:</Text>
+        <Text style={styles.title}>Pick your desired renting period:</Text>
         <View style={styles.selectedDateContainer}>
-          <Text>From</Text>
+          <Text>From:</Text>
           <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
             <Text style={styles.dateSelector} onPress={() => setShowStartDatePicker(true)}>
               {format(selectedStartDate, 'dd/MM/yyyy')}
             </Text>
           </TouchableOpacity>
-          <Text>Till</Text>
+          <Text>Till:</Text>
           <TouchableOpacity onPress={() => setShowEndDatePicker(true)}>
             <Text style={styles.dateSelector} onPress={() => setShowEndDatePicker(true)}>
               {format(selectedEndDate, 'dd/MM/yyyy')}
@@ -164,11 +164,12 @@ const styles = {
     flexDirection: 'column',
     marginTop: 8,
     width: '90%',
+    alignItems: 'center',
   },
   statContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    width: '40%',
+    width: '80%',
     justifyContent: 'space-between',
   },
   statistic: {
@@ -220,7 +221,7 @@ const styles = {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: '#FFF',
+    color: '#00008F',
   },
   datePickersRow: {
     flexDirection: 'row',
@@ -238,7 +239,11 @@ const styles = {
     marginLeft: 8,
     marginRight: 8,
     color: '#00008F', // Dark Blue color
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#00008F', // Dark Blue color
+    padding: 8,
   },
 };
 
-export default CarDetails;
+export default Details;

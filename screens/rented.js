@@ -11,7 +11,7 @@ const Rented = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       // Navigate back to the home page after 2 seconds
-      navigation.navigate('Home');
+      navigation.navigate('WRS - Home');
     }, 3000);
 
     // Clear the timeout when the component is unmounted
