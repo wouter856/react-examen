@@ -17,7 +17,11 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
     screen: {
       padding: 24,
-      backgroundColor: "#F8F6F6",
+      color: "#fff",
+      width: "100%",
+      height: "100%",
+      justifyContent: "center",
+      alignItems: "center",
     }
 });
 
