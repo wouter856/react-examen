@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { format } from 'date-fns';
 
 const Rented = () => {
   const route = useRoute();
-  const { car } = route.params;
+  const { car, startDate, endDate } = route.params;
   const navigation = useNavigation();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       // Navigate back to the home page after 2 seconds
       navigation.navigate('Home');
-    }, 20000);
+    }, 3000);
 
     // Clear the timeout when the component is unmounted
     return () => clearTimeout(timeout);
@@ -24,9 +25,9 @@ const Rented = () => {
       <Image source={car.imageUrl} style={styles.carImage} />
       <View style={styles.dateContainer}>
         <Text style={styles.dateText}>From</Text>
-        <Text style={styles.dateValue}>13/01/2024</Text>
+        <Text style={styles.dateValue}>{format(startDate, 'dd/MM/yyyy')}</Text>
         <Text style={styles.dateText}>Till</Text>
-        <Text style={styles.dateValue}>15/01/2024</Text>
+        <Text style={styles.dateValue}>{format(endDate, 'dd/MM/yyyy')}</Text>
       </View>
     </View>
   );

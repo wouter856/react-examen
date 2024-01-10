@@ -1,20 +1,94 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { format } from 'date-fns';
 
 const CarDetails = ({ route }) => {
   const navigation = useNavigation();
+  // Extract the car data and start and end date from the route parameters
+  const { car, startDate, endDate } = route.params;
 
-  // Extract the car data from the route parameters
-  const { car } = route.params;
+  const startDateObject = new Date(startDate);
+  const endDateObject = new Date(endDate);
+
+  // State to control the visibility of date pickers
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+
+  // State to store selected dates
+  const [selectedStartDate, setSelectedStartDate] = useState(startDateObject);
+  const [selectedEndDate, setSelectedEndDate] = useState(endDateObject);
 
   // Function to handle the button press and navigate to the Rented.js page
   const handleRentButtonPress = () => {
-    navigation.navigate('Rented', { car });
+    const formattedStartDate = selectedStartDate.toISOString(); // Convert to string
+    const formattedEndDate = selectedEndDate.toISOString(); // Convert to string
+
+    navigation.navigate('Rented', { car, startDate: formattedStartDate, endDate: formattedEndDate });
+  };
+
+  const updateEndDate = (newStartDate) => {
+    // Check if the new start date is later than the current end date when a new start date is selected
+    if (newStartDate > selectedEndDate) {
+      // Set the end date to the new start date
+      setSelectedEndDate(newStartDate);
+    }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.datePickersContainer}>
+        <Text style={styles.title}>Pick your desired renting period below:</Text>
+        <View style={styles.selectedDateContainer}>
+          <Text>From</Text>
+          <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
+            <Text style={styles.dateSelector} onPress={() => setShowStartDatePicker(true)}>
+              {format(selectedStartDate, 'dd/MM/yyyy')}
+            </Text>
+          </TouchableOpacity>
+          <Text>Till</Text>
+          <TouchableOpacity onPress={() => setShowEndDatePicker(true)}>
+            <Text style={styles.dateSelector} onPress={() => setShowEndDatePicker(true)}>
+              {format(selectedEndDate, 'dd/MM/yyyy')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {showStartDatePicker && (
+        <DateTimePicker
+          value={selectedStartDate}
+          mode="date"
+          is24Hour={true}
+          display="default"
+          format="DD/MM/YYYY"
+          onChange={(event, selectedDate) => {
+            setShowStartDatePicker(false);
+            if (selectedDate) {
+              setSelectedStartDate(selectedDate);
+              updateEndDate(selectedDate); // Update the end date when the start date changes beyond the current end date
+            }
+          }}
+        />
+      )}
+
+      {showEndDatePicker && (
+        <DateTimePicker
+          value={selectedEndDate}
+          mode="date"
+          is24Hour={true}
+          display="default"
+          format="DD/MM/YYYY"
+          onChange={(event, selectedDate) => {
+            setShowEndDatePicker(false);
+            if (selectedDate) {
+              setSelectedEndDate(selectedDate);
+            }
+          }}
+        />
+      )}
+
       <Text style={styles.carName}>{car.name}</Text>
       <Image source={car.imageUrl} style={styles.carImage} />
       <View style={styles.priceContainer}>
@@ -129,6 +203,41 @@ const styles = {
   carDescription: {
     fontSize: 16,
     marginTop: 16,
+  },
+  datePickersContainer: {
+    backgroundColor: '#ADD8E6', // Light Blue color
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  selectedDateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#FFF',
+  },
+  datePickersRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  datePickerText: {
+    fontSize: 16,
+    marginLeft: 8,
+    marginRight: 8,
+  },
+  dateSelector: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 8,
+    marginRight: 8,
+    color: '#00008F', // Dark Blue color
   },
 };
 
