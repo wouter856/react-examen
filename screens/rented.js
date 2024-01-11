@@ -14,12 +14,12 @@ const Rented = () => {
   const calculateTotalPrice = () => {
     if (startDate === endDate) {
       const total = car.price || 0; // Default to 0 if car.price is undefined
-      setTotalPrice(total);
+      setTotalPrice(total.toFixed(2));
     } else {
       const days = differenceInDays(endDate, startDate) + 1;
       const price = car.price || 0; // Default to 0 if car.price is undefined
       const total = days * price;
-      setTotalPrice(total);
+      setTotalPrice(total.toFixed(2));
     }
   };
 

@@ -27,12 +27,12 @@ const Details = ({ route }) => {
   const calculateTotalPrice = () => {
     if (selectedStartDate === selectedEndDate) {
       const total = car.price || 0; // Default to 0 if car.price is undefined
-      setTotalPrice(total);
+      setTotalPrice(total.toFixed(2));
     } else {
       const days = differenceInDays(selectedEndDate, selectedStartDate) + 1;
       const price = car.price || 0; // Default to 0 if car.price is undefined
       const total = days * price;
-      setTotalPrice(total);
+      setTotalPrice(total.toFixed(2));
     }
   };
 
