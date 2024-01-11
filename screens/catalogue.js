@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, TextInput, Stylesheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
@@ -70,6 +70,7 @@ const Catalogue = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const cars = [
     {
@@ -114,6 +115,10 @@ const Catalogue = () => {
     },
   ];
 
+  const filteredCars = cars.filter((car) =>
+    car.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const handleCarPress = (car) => {
     /*the dates need to be strings cuz otherwise i can't use them*/
     const startDateString = startDate.toISOString();
@@ -129,17 +134,6 @@ const Catalogue = () => {
       setEndDate(newStartDate);
     }
   };
-
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.carContainer}
-      onPress={() => handleCarPress(item)}
-    >
-      <Image source={item.imageUrl} style={styles.carImage} />
-      <Text style={styles.carName}>{item.name}</Text>
-      <Text style={styles.carSummary}>{item.summary}</Text>
-    </TouchableOpacity>
-  );
 
   /*zet de begindatum en einddatum naar vandaag, kunnen aangepast worden (DateTimePicker) en omgezet naar dd-mm-yyyy format met date-fns*/
   return (
@@ -195,12 +189,22 @@ const Catalogue = () => {
         />
       )}
 
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search for a vehicle..."
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+        />
+      </View>
+
       <FlatList
-        data={cars}
+        data={filteredCars} /* Render the filteredCars instead of all cars when the searcbar has been typed a query in */
         renderItem={({ item }) => (
           <Car
             car={item}
             onPress={() => handleCarPress(item)}
+            searchQuery={searchQuery}
           />
         )}
         keyExtractor={(item) => item.name}
@@ -218,13 +222,23 @@ const styles = {
     backgroundColor: '#03C04A', 
     padding: 16,
     borderRadius: 8,
-    marginBottom: 16,
+    marginBottom: 8,
   },
   selectedDateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: 4,
+  },
+  searchContainer: {
+    backgroundColor: '#FFF',
+    padding: 8,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  searchInput: {
+    fontSize: 16,
+    color: '#000',
   },
   title: {
     fontSize: 20,
