@@ -147,13 +147,13 @@ const Catalogue = () => {
       <View style={styles.datePickersContainer}>
         <Text style={styles.title}>Pick your desired renting period:</Text>
         <View style={styles.selectedDateContainer}>
-          <Text>From:</Text>
+          <Text style={styles.datePickerText}>From:</Text>
           <TouchableOpacity onPress={() => setShowStartDatePicker(true)}>
             <Text style={styles.dateSelector} onPress={() => setShowStartDatePicker(true)}>
               {format(startDate, 'dd/MM/yyyy')}
             </Text>
           </TouchableOpacity>
-          <Text>Till:</Text>
+          <Text style={styles.datePickerText}>Till:</Text>
           <TouchableOpacity onPress={() => setShowEndDatePicker(true)}>
             <Text style={styles.dateSelector} onPress={() => setShowEndDatePicker(true)}>
               {format(endDate, 'dd/MM/yyyy')}
@@ -215,7 +215,7 @@ const styles = {
     padding: 16,
   },
   datePickersContainer: {
-    backgroundColor: '#ADD8E6', // Light Blue color
+    backgroundColor: '#03C04A', 
     padding: 16,
     borderRadius: 8,
     marginBottom: 16,
@@ -230,7 +230,7 @@ const styles = {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: '#00008F',
+    color: '#FFF',
   },
   datePickersRow: {
     flexDirection: 'row',
@@ -239,18 +239,17 @@ const styles = {
   },
   datePickerText: {
     fontSize: 16,
-    marginLeft: 8,
-    marginRight: 8,
+    color: '#FFF',
   },
   dateSelector: {
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 8,
     marginRight: 8,
-    color: '#00008F', // Dark Blue color
+    color: '#FFF',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#00008F', // Dark Blue color
+    borderColor: '#FFF',
     padding: 8,
   },
 };
